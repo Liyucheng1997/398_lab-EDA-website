@@ -94,6 +94,8 @@ export type SynthTarget = 'generic' | 'ice40' | 'ecp5' | 'xc7' | 'gowin';
 export interface SynthesizeOptions {
   top?: string;
   target: SynthTarget;
+  /** 指定器件时，资源报告的 available 取该器件的资源总量（器件 family 必须与 target 一致） */
+  device?: DeviceId;
   flatten?: boolean;
   /** 是否额外生成综合后原理图 SVG（大设计会很慢，默认 true，超过 3000 单元自动跳过） */
   schematic?: boolean;
@@ -114,6 +116,8 @@ export interface ImplementOptions {
 
 export interface GatesimOptions {
   top?: string;
+  /** 覆盖顶层参数（Yosys chparam），用于把分频系数等改小以便在浏览器里实时观察 */
+  params?: Record<string, number>;
 }
 
 export interface YosysOptions {
@@ -387,6 +391,8 @@ export interface ProjectSettings {
   freqMHz: number;
   synth: { flatten: boolean };
   simulate: SimulateOptions;
+  /** 虚拟开发板构建时覆盖的顶层参数（见 GatesimOptions.params） */
+  gatesimParams?: Record<string, number>;
 }
 
 /** 设计运行记录（类 Vivado Design Runs 表） */

@@ -137,7 +137,7 @@ export function getDevice(id: DeviceId | string | undefined): DeviceInfo | undef
 
 /**
  * 板载外设种类。虚拟开发板按顶层端口名把外设与设计相连：
- *   led / leds / led[n]          → LED
+ *   led / leds / led[n]          → LED（名字以 _n 结尾则低电平点亮，如 led_n / led_r_n）
  *   sw / sw[n] / switch          → 拨码开关
  *   btn / btn[n] / key / button  → 按键（按下为 1，若端口名以 _n 结尾则按下为 0）
  *   seg[6:0] / seg[7:0]          → 七段数码管段选（a..g[,dp]，默认高电平点亮；_n 结尾为低电平点亮）
