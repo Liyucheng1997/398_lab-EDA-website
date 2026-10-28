@@ -1,7 +1,7 @@
 {
   "name": "webeda",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "WebEDA — 网页版 HDL 仿真 + FPGA 综合/实现平台（类 EDA Playground / 在线 Vivado）",
   "workspaces": [
     "shared",
