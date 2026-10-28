@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { ToastHost } from './ui/toast';
+import { BackendNotice } from './ui/BackendNotice';
 
 const HomePage = lazy(() => import('./pages/home/HomePage'));
 const PlaygroundPage = lazy(() => import('./pages/playground/PlaygroundPage'));
@@ -21,6 +22,7 @@ export function App() {
         </Routes>
       </Suspense>
       <ToastHost />
+      <BackendNotice />
     </>
   );
 }

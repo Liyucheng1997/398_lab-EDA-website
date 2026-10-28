@@ -15,6 +15,8 @@ export const config = {
   workDir: path.resolve(process.env.WEBEDA_WORK_DIR ?? path.join(os.tmpdir(), 'webeda-jobs')),
   /** 前端构建产物，存在时由 server 直接托管 */
   clientDist: path.join(REPO_ROOT, 'client', 'dist'),
+  /** 允许跨域访问 /api 的前端来源（逗号分隔），如 https://liyucheng1997.github.io；为空则不开启 CORS */
+  corsOrigins: (process.env.WEBEDA_CORS_ORIGIN ?? '').split(',').map((s) => s.trim()).filter(Boolean),
   /** 同时运行的任务数 */
   concurrency: Number(process.env.WEBEDA_CONCURRENCY ?? Math.max(1, Math.min(4, Math.floor(os.cpus().length / 2)))),
   /** 任务保留时间（结束后多久清理工作目录与内存记录） */

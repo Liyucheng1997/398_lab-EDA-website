@@ -14,9 +14,10 @@ import type {
   ProjectSummary,
   ToolInfo,
 } from '@webeda/shared';
+import { apiUrl } from './config';
 
 async function request<T>(method: string, url: string, body?: unknown): Promise<T> {
-  const res = await fetch(url, {
+  const res = await fetch(apiUrl(url), {
     method,
     headers: body !== undefined ? { 'Content-Type': 'application/json' } : undefined,
     body: body !== undefined ? JSON.stringify(body) : undefined,
@@ -52,7 +53,7 @@ export const api = {
   getJob: (id: string) => request<JobInfo>('GET', `/api/jobs/${id}`),
   cancelJob: (id: string) => request<{ ok: true }>('POST', `/api/jobs/${id}/cancel`),
   artifactUrl: (jobId: string, name: string, download = false) =>
-    `/api/jobs/${jobId}/artifacts/${encodeURIComponent(name)}${download ? '?download' : ''}`,
+    apiUrl(`/api/jobs/${jobId}/artifacts/${encodeURIComponent(name)}${download ? '?download' : ''}`),
   artifactText: async (jobId: string, name: string) => {
     const res = await fetch(api.artifactUrl(jobId, name));
     if (!res.ok) throw new Error(`无法下载产物 ${name}`);
@@ -80,7 +81,7 @@ export async function startJob(req: JobRequest, handlers: JobHandlers = {}): Pro
   const { id } = await api.createJob(req);
   let es: EventSource | null = null;
   const done = new Promise<JobInfo>((resolve, reject) => {
-    es = new EventSource(`/api/jobs/${id}/events`);
+    es = new EventSource(apiUrl(`/api/jobs/${id}/events`));
     let finished = false;
     es.addEventListener('log', (e) => handlers.onLog?.(JSON.parse((e as MessageEvent).data)));
     es.addEventListener('status', (e) => {

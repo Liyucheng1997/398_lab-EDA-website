@@ -1,0 +1,60 @@
+# 把前端构建成静态站点部署到 GitHub Pages。
+# 注意：Pages 只托管前端；仿真、综合等需要 WebEDA 服务端。
+# 如果在别处部署了服务端，在仓库 Settings → Secrets and variables → Actions → Variables
+# 添加 WEBEDA_API_BASE（如 https://eda.example.com），并在服务端设置
+# WEBEDA_CORS_ORIGIN=https://<用户名>.github.io。
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build client
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/
+          VITE_API_BASE: ${{ vars.WEBEDA_API_BASE }}
+        run: npm run build -w client
+
+      # 单页应用：直接访问 /playground 等子路径时 Pages 返回 404.html，内容与 index.html 相同即可由前端路由接管
+      - name: SPA fallback
+        run: cp client/dist/index.html client/dist/404.html
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: client/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

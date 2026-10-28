@@ -128,3 +128,10 @@ kbd { font-family: var(--mono); font-size: 11px; padding: 1px 5px; border-radius
 @media (max-width: 760px) {
   .logo-text small { display: none; }
 }
+
+/* 未连接服务端提示（静态部署时） */
+.backend-notice { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 3500; width: min(720px, calc(100vw - 32px)); display: flex; align-items: center; gap: 10px; padding: 10px 8px 10px 16px; background: var(--panel); color: var(--text); border-radius: var(--r); box-shadow: var(--shadow-pop); font-size: 13px; line-height: 1.5; animation: riseIn 0.3s var(--ease-out); }
+.backend-notice > svg { color: var(--warning); flex: none; }
+.backend-notice span { flex: 1; min-width: 0; }
+.backend-notice a { color: var(--primary); }
+.backend-notice code { font-family: var(--mono); font-size: 12px; padding: 1px 5px; border-radius: 5px; background: var(--fill); }

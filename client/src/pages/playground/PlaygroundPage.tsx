@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import type { Diagnostic, JobInfo, JobRequest, ToolInfo } from '@webeda/shared';
 import { api } from '../../lib/api';
+import { pageUrl } from '../../lib/config';
 import { useJob, type LogLine } from '../../lib/useJob';
 import { useTheme } from '../../lib/theme';
 import { SplitPane } from '../../ui/SplitPane';
@@ -692,7 +693,7 @@ export default function PlaygroundPage() {
       id = await save();
       if (!id) return;
     }
-    const url = `${window.location.origin}/playground/${id}`;
+    const url = pageUrl(`/playground/${id}`);
     if (await copyText(url)) toast('链接已复制到剪贴板', 'success');
     else setShareUrl(url);
   }, [save]);

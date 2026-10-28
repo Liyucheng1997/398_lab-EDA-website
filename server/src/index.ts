@@ -10,6 +10,21 @@ const app = express();
 app.disable('x-powered-by');
 app.use(express.json({ limit: '8mb' }));
 
+// 前端与后端分开部署（如前端在 GitHub Pages）时，按白名单开启 CORS
+if (config.corsOrigins.length) {
+  app.use('/api', (req, res, next) => {
+    const origin = req.headers.origin;
+    if (origin && (config.corsOrigins.includes(origin) || config.corsOrigins.includes('*'))) {
+      res.setHeader('Access-Control-Allow-Origin', origin);
+      res.setHeader('Vary', 'Origin');
+      res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    }
+    if (req.method === 'OPTIONS') return void res.sendStatus(204);
+    next();
+  });
+}
+
 app.use('/api/jobs', jobsRouter);
 app.use('/api/playgrounds', playgroundsRouter);
 app.use('/api/projects', projectsRouter);
