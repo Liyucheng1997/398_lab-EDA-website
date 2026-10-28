@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "webeda-server",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "-w", "server"],
+      "port": 3001
+    },
+    {
+      "name": "webeda-client",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "-w", "client"],
+      "port": 5173
+    }
+  ]
+}

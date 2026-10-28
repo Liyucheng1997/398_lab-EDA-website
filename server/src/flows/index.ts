@@ -1,17 +1,18 @@
+import type { JobKind } from '@webeda/shared';
 import type { Flow } from '../jobs/context';
-import { FlowError } from '../jobs/context';
+import { elaborate } from './elaborate';
+import { gatesim } from './gatesim';
+import { implement } from './implement';
+import { simulate } from './simulate';
+import { synthesize } from './synthesize';
+import { yosys } from './yosys';
 
-// TODO(flows agent): 用真正的实现替换这些占位 flow，每个 flow 一个文件：
-//   simulate.ts / elaborate.ts / synthesize.ts / implement.ts / gatesim.ts / yosys.ts
-const notImplemented: Flow = async () => {
-  throw new FlowError('该流程尚未实现');
-};
-
-export const FLOWS: { [K in import('@webeda/shared').JobKind]: Flow<K> } = {
-  simulate: notImplemented as Flow<'simulate'>,
-  elaborate: notImplemented as Flow<'elaborate'>,
-  synthesize: notImplemented as Flow<'synthesize'>,
-  implement: notImplemented as Flow<'implement'>,
-  gatesim: notImplemented as Flow<'gatesim'>,
-  yosys: notImplemented as Flow<'yosys'>,
+/** 每种 JobKind 对应一个 flow（由 jobs/manager.ts 调用） */
+export const FLOWS: { [K in JobKind]: Flow<K> } = {
+  simulate,
+  elaborate,
+  synthesize,
+  implement,
+  gatesim,
+  yosys,
 };

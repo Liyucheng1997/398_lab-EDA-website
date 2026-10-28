@@ -1,48 +1,18 @@
 import type { Example } from '@webeda/shared';
+import { PLAYGROUND_EXAMPLES } from './playground';
+import { STUDIO_TEMPLATES } from './templates';
 
-// TODO(examples agent): 每个示例一个文件放在本目录，在这里汇总导出。
-export const EXAMPLES: Example[] = [
-  {
-    id: 'counter',
-    title: '4 位计数器',
-    description: '带同步复位的 4 位计数器及其测试平台',
-    category: 'basics',
-    scope: 'playground',
-    files: [
-      {
-        name: 'design.sv',
-        role: 'design',
-        content: `module counter (
-  input  logic       clk,
-  input  logic       rst,
-  output logic [3:0] q
-);
-  always_ff @(posedge clk)
-    if (rst) q <= '0;
-    else     q <= q + 1'b1;
-endmodule
-`,
-      },
-      {
-        name: 'testbench.sv',
-        role: 'testbench',
-        content: `module tb;
-  logic clk = 0, rst = 1;
-  logic [3:0] q;
-  counter dut (.clk(clk), .rst(rst), .q(q));
-  always #5 clk = ~clk;
-  initial begin
-    $dumpfile("dump.vcd");
-    $dumpvars(0, tb);
-    #12 rst = 0;
-    #200;
-    $display("q = %0d", q);
-    $finish;
-  end
-endmodule
-`,
-      },
-    ],
-    simulate: { standard: '2012' },
-  },
-];
+/**
+ * 内置示例与工程模板。
+ * - Playground 示例（scope = 'playground'）：设计 + 自检测试平台，见 playground.ts；
+ * - Studio 模板（scope = 'studio'，category = 'board'）：带板卡、约束与工程设置，见 templates.ts。
+ * HDL 源文件位于 hdl/<id>/，由 verify.ts 用 Icarus / Yosys / nextpnr 逐一验证。
+ * 第一个示例固定为 'counter'（Playground 的默认示例）。
+ */
+export const EXAMPLES: Example[] = [...PLAYGROUND_EXAMPLES, ...STUDIO_TEMPLATES];
+
+export function getExample(id: string): Example | undefined {
+  return EXAMPLES.find((e) => e.id === id);
+}
+
+export { PLAYGROUND_EXAMPLES, STUDIO_TEMPLATES };

@@ -1,0 +1,112 @@
+/* 波形查看器私有样式（前缀 wv-）。颜色只引用 tokens.css 变量。 */
+
+.wv { position: relative; display: flex; flex-direction: column; width: 100%; height: 100%; min-width: 0; min-height: 0; background: var(--panel); color: var(--text); }
+.wv > .empty { flex: 1; }
+.wv-err-ico { color: var(--danger); opacity: 0.85 !important; }
+.wv-progress { width: 200px; max-width: 70%; }
+
+.wv-view { position: relative; display: flex; flex-direction: column; flex: 1; min-width: 0; min-height: 0; outline: none; }
+
+/* 工具栏 */
+.wv-toolbar { flex: none; height: 42px; display: flex; align-items: center; gap: 2px; padding: 0 8px; border-bottom: 1px solid var(--line); overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+.wv-toolbar::-webkit-scrollbar { display: none; }
+.wv-toolbar > * { flex: none; }
+.wv-toolbar .icon-btn { width: 30px; height: 30px; }
+.wv-tb-sep { width: 1px; height: 18px; background: var(--line); margin: 0 5px; }
+.wv-tb-spacer { flex: 1 0 8px !important; }
+.wv-radix { height: 28px; width: auto; min-width: 104px; font-size: 12.5px; margin: 0 2px; border-radius: 99px; padding: 0 10px; background: var(--fill); border-color: transparent; cursor: pointer; }
+.wv-radix:hover { background: var(--fill-hover); }
+.wv-search { display: inline-flex; align-items: center; gap: 6px; height: 28px; width: 176px; margin-left: 6px; padding: 0 10px; border-radius: 99px; background: var(--fill); color: var(--text-3); transition: box-shadow 0.15s, background 0.15s; }
+.wv-search:focus-within { background: var(--panel); box-shadow: 0 0 0 1px var(--primary), 0 0 0 4px var(--primary-soft); }
+.wv-search input { flex: 1; min-width: 0; height: 100%; border: 0; outline: none; background: transparent; font-size: 12.5px; color: var(--text); }
+.wv-search input::placeholder { color: var(--text-3); }
+.wv-warn { display: inline-flex; align-items: center; gap: 5px; height: 24px; padding: 0 10px; margin-right: 8px; border-radius: 99px; background: var(--warning-bg); color: var(--warning); font-size: 12px; font-weight: 500; cursor: help; white-space: nowrap; }
+.wv-time { display: inline-flex; align-items: center; gap: 14px; padding: 0 10px; font-size: 12.5px; color: var(--text-2); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.wv-time b { color: var(--text); font-weight: 600; }
+
+/* 主体 */
+.wv-body { position: relative; flex: 1; min-height: 0; display: flex; }
+.wv-tree { flex: none; width: 240px; display: flex; flex-direction: column; border-right: 1px solid var(--line); background: var(--panel); min-height: 0; }
+.wv-main { position: relative; flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+
+/* 信号树 */
+.wv-tree-inner { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+.wv-tree-head { flex: none; height: 30px; display: flex; align-items: center; gap: 6px; padding: 0 4px 0 12px; border-bottom: 1px solid var(--line); font-size: 12px; font-weight: 600; color: var(--text-2); }
+.wv-tree-head .spacer { flex: 1; }
+.wv-sm-btn { width: 24px !important; height: 24px !important; }
+.wv-tree-list { flex: 1; min-height: 0; overflow: auto; outline: none; padding-bottom: 6px; }
+.wv-tree-empty { padding: 20px 12px; color: var(--text-3); font-size: 12.5px; text-align: center; }
+.wv-tree-row { position: absolute; left: 4px; right: 4px; height: 26px; display: flex; align-items: center; gap: 4px; padding-right: 6px; border-radius: 7px; font-size: 12.5px; cursor: default; user-select: none; white-space: nowrap; }
+.wv-tree-row .spacer { flex: 1; min-width: 4px; }
+.wv-tree-row:hover { background: var(--hover); }
+.wv-tree-row.focus { background: var(--primary-soft); }
+.wv-tree-list:focus .wv-tree-row.focus { box-shadow: inset 0 0 0 1px var(--primary); }
+.wv-tree-chev { width: 14px; flex: none; display: inline-flex; color: var(--text-3); }
+.wv-tree-ico { color: var(--text-3); flex: none; }
+.wv-tree-scope .wv-tree-name { font-weight: 500; }
+.wv-tree-name { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.wv-tree-var .wv-tree-name { font-family: var(--mono); font-size: 12px; }
+.wv-tree-range { font-family: var(--mono); font-size: 11px; color: var(--text-3); flex: none; }
+.wv-tree-meta { font-size: 11px; color: var(--text-4); flex: none; }
+.wv-tree-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--fill-hover); flex: none; margin: 0 3px; }
+.wv-tree-dot.on { background: var(--primary); }
+.wv-tree-add { width: 22px; height: 22px; flex: none; border: 0; padding: 0; border-radius: 50%; background: transparent; color: var(--text-3); display: inline-flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.12s, background 0.12s, color 0.12s; }
+.wv-tree-row:hover .wv-tree-add, .wv-tree-row.focus .wv-tree-add { opacity: 1; }
+.wv-tree-add:hover { background: var(--primary); color: #fff; }
+
+/* 表头 */
+.wv-head { flex: none; height: 30px; display: flex; border-bottom: 1px solid var(--line); }
+.wv-head-cell { position: relative; flex: none; display: flex; align-items: center; gap: 6px; padding: 0 10px; font-size: 12px; font-weight: 600; color: var(--text-2); border-right: 1px solid var(--line); white-space: nowrap; overflow: hidden; }
+.wv-col-resize { position: absolute; top: 0; right: -1px; width: 7px; height: 100%; cursor: col-resize; z-index: 1; }
+.wv-col-resize:hover { background: var(--primary-soft); }
+.wv-ruler { flex: 1; min-width: 0; overflow: hidden; }
+.wv-ruler canvas { display: block; cursor: col-resize; touch-action: none; }
+
+/* 行区（纵向原生滚动） */
+.wv-scroll { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; position: relative; overscroll-behavior: contain; }
+.wv-content { position: relative; display: flex; min-height: 100%; }
+.wv-names, .wv-values { position: relative; flex: none; border-right: 1px solid var(--line); }
+.wv-name-row, .wv-value-row { position: absolute; left: 0; right: 0; display: flex; align-items: center; gap: 2px; padding: 0 8px 0 4px; font-family: var(--mono); font-size: 12px; white-space: nowrap; overflow: hidden; user-select: none; cursor: default; border-bottom: 1px solid var(--line); }
+.wv-name-row:hover, .wv-value-row:hover { background: var(--hover); }
+.wv-name-row.selected, .wv-value-row.selected { background: var(--primary-soft); }
+.wv-name-row.selected .wv-name-text { color: var(--primary); font-weight: 600; }
+.wv-name-row[draggable='true'] { cursor: grab; }
+.wv-bit-row { padding-left: 18px; }
+.wv-bit-row .wv-name-text { color: var(--text-2); }
+.wv-expand { width: 18px; height: 18px; flex: none; border: 0; padding: 0; border-radius: 5px; background: transparent; color: var(--text-3); display: inline-flex; align-items: center; justify-content: center; }
+.wv-expand:hover { background: var(--fill); color: var(--text); }
+.wv-expand-pad { width: 18px; flex: none; }
+.wv-name-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.wv-radix-tag { flex: none; font-family: var(--font); font-size: 10px; font-weight: 600; color: var(--text-4); letter-spacing: 0.02em; }
+.wv-value-row { padding: 0 10px; justify-content: flex-end; font-variant-numeric: tabular-nums; text-overflow: ellipsis; }
+.wv-st-x { color: var(--danger); }
+.wv-st-z { color: var(--warning); }
+.wv-wavecol { position: relative; flex: 1; min-width: 0; }
+.wv-sticky { position: sticky; top: 0; overflow: hidden; }
+.wv-canvas { display: block; cursor: crosshair; touch-action: pan-y; }
+.wv-hint { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; color: var(--text-3); font-size: 13.5px; pointer-events: none; }
+.wv-drop-line { position: absolute; left: 0; right: 0; height: 2px; margin-top: -1px; background: var(--primary); border-radius: 2px; pointer-events: none; z-index: 2; }
+
+/* 水平滚动条 */
+.wv-hbar { flex: none; height: 12px; display: flex; border-top: 1px solid var(--line); }
+.wv-track { position: relative; flex: 1; min-width: 0; cursor: pointer; }
+.wv-thumb { position: absolute; top: 2px; left: 0; height: 7px; border-radius: 99px; background: var(--line-strong); cursor: grab; touch-action: none; transition: background 0.15s; }
+.wv-thumb:hover, .wv-thumb:active { background: var(--text-4); }
+
+/* 忙碌提示（不阻挡交互） */
+.wv-busy { position: absolute; top: 40px; right: 14px; z-index: 5; display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 14px 0 10px; border-radius: 99px; background: var(--panel); box-shadow: var(--shadow-pop); font-size: 12.5px; font-weight: 500; color: var(--text-2); pointer-events: none; animation: popIn 0.18s ease-out; }
+.wv-busy-spin { width: 14px; height: 14px; border: 2px solid var(--fill); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+/* 右键菜单 */
+.wv-menu { min-width: 200px; }
+.wv-menu-title { max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--mono); color: var(--text-2); }
+
+/* 窄屏：信号树变为浮层，列变窄 */
+.wv-compact .wv-tree { position: absolute; top: 0; bottom: 0; left: 0; z-index: 6; width: min(280px, 86%); box-shadow: var(--shadow-pop); border-right: 0; animation: wvSlideIn 0.18s var(--ease-out); }
+.wv-compact .wv-toolbar { flex-wrap: wrap; height: auto; min-height: 42px; padding: 5px 8px; row-gap: 4px; }
+.wv-compact .wv-tb-spacer { display: none; }
+.wv-compact .wv-search { width: 130px; }
+.wv-compact .wv-time { gap: 8px; padding: 0 6px; font-size: 12px; }
+.wv-compact .wv-radix { min-width: 0; }
+.wv-compact .wv-radix-tag { display: none; }
+@keyframes wvSlideIn { from { transform: translateX(-12px); opacity: 0; } }

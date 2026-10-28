@@ -1,0 +1,165 @@
+/* Playground 页面私有样式（前缀 pg-）。颜色只引用 tokens.css / app.css 中的变量。 */
+
+.pg-root { flex: 1; height: 100%; min-height: 0; min-width: 0; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
+.pg-mono { font-family: var(--mono); font-size: 12px; }
+
+/* ───────── 顶栏 ───────── */
+.pg-topbar { gap: 8px; min-width: 0; }
+.pg-topbar .logo { flex: none; }
+.pg-title-wrap { flex: 1; min-width: 60px; display: flex; align-items: center; gap: 8px; }
+.pg-title { flex: 0 1 380px; min-width: 40px; height: 32px; padding: 0 10px; border: 0; border-radius: 10px; background: transparent; color: var(--text); font-size: 15px; font-weight: 600; letter-spacing: -0.02em; outline: none; text-overflow: ellipsis; transition: background 0.15s, box-shadow 0.15s; }
+.pg-title::placeholder { color: var(--text-4); }
+.pg-title:hover { background: var(--hover); }
+.pg-title:focus { background: var(--panel); box-shadow: inset 0 0 0 1px var(--primary), 0 0 0 3px var(--primary-soft); }
+.pg-title:disabled { background: transparent; color: var(--text-3); }
+.pg-save-state { flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-3); white-space: nowrap; }
+.pg-save-state.dirty { color: var(--warning); }
+.pg-save-state i { width: 7px; height: 7px; border-radius: 50%; background: var(--warning); }
+.pg-actions { flex: none; display: flex; align-items: center; gap: 6px; }
+.pg-actions .btn { padding: 0 14px; }
+.pg-run { flex: none; min-width: 84px; }
+.pg-stop { background: var(--danger); color: #fff; }
+.pg-stop:hover { background: var(--danger); opacity: 0.9; }
+.pg-round { flex: none; width: 36px; height: 36px; border: 0; border-radius: 50%; background: var(--panel); color: var(--text-2); box-shadow: var(--shadow-card); display: inline-flex; align-items: center; justify-content: center; transition: box-shadow 0.15s, color 0.15s; }
+.pg-round:hover { box-shadow: var(--shadow-lift); color: var(--text); }
+.pg-show-narrow { display: none; }
+.pg-more { position: relative; flex: none; }
+.pg-more-menu { position: absolute; top: calc(100% + 6px); right: 0; left: auto; transform-origin: top right; min-width: 176px; }
+
+/* ───────── 离线提示 ───────── */
+.pg-banner { flex: none; display: flex; align-items: center; gap: 10px; margin: 0 12px 10px; padding: 7px 8px 7px 14px; border-radius: var(--r); background: var(--danger-bg); color: var(--danger); font-size: 12.5px; font-weight: 500; animation: riseIn 0.2s var(--ease-out); }
+.pg-banner svg { flex: none; }
+.pg-banner-text { flex: 1; min-width: 0; }
+.pg-banner .btn { flex: none; background: var(--panel); color: var(--text); }
+
+/* ───────── 主体 ───────── */
+.pg-body { position: relative; flex: 1; min-height: 0; min-width: 0; display: flex; gap: 12px; padding: 0 12px; }
+.pg-main { flex: 1; min-width: 0; min-height: 0; display: flex; flex-direction: column; }
+.pg-main > .split { flex: 1; height: auto; min-height: 0; }
+.pg-state { flex: 1; align-items: center; justify-content: center; gap: 12px; color: var(--text-3); font-size: 14px; padding: 24px; text-align: center; }
+.pg-state svg { opacity: 0.6; }
+.pg-state-actions { display: flex; gap: 8px; }
+
+/* ───────── 左侧设置栏（macOS 侧栏） ───────── */
+.pg-sidebar { flex: none; width: 260px; margin-left: -12px; overflow-y: auto; overflow-x: hidden; background: var(--sidebar-bg); border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-top-right-radius: var(--r); animation: pgSlideIn 0.2s var(--ease-out); }
+.pg-side-inner { padding: 14px 14px 24px; display: flex; flex-direction: column; gap: 18px; }
+.pg-side-title { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; font-size: 12px; font-weight: 500; color: var(--text-3); }
+.pg-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; font-size: 12px; color: var(--text-2); }
+.pg-field .input { width: 100%; min-width: 0; height: 30px; font-size: 12.5px; }
+.pg-field .input.pg-mono { font-size: 12px; }
+.pg-check { margin: 4px 0 8px; font-size: 12.5px; line-height: 1.4; align-items: flex-start; }
+.pg-check input { margin: 2px 0 0; flex: none; }
+.pg-side-btn { width: 100%; margin-top: 6px; }
+.pg-side-note { display: flex; align-items: center; gap: 6px; margin: -4px 0 10px; font-size: 12px; }
+.pg-side-note.warn { color: var(--warning); }
+.pg-side-note.danger { color: var(--danger); }
+.pg-desc { width: 100%; min-height: 96px; font-size: 12.5px; }
+.pg-desc-count { margin-top: 4px; text-align: right; font-size: 11px; color: var(--text-4); }
+@keyframes pgSlideIn { from { opacity: 0; transform: translateX(-12px); } }
+
+/* 窄屏抽屉 */
+.pg-drawer-mask { position: absolute; inset: 0; z-index: 19; background: rgba(0, 0, 0, 0.25); animation: fadeIn 0.15s ease-out; }
+.pg-drawer { position: absolute; top: 0; bottom: 0; left: 0; z-index: 20; width: min(300px, 86vw); margin: 0; border-radius: 0 var(--r-lg) var(--r-lg) 0; box-shadow: var(--shadow-pop); }
+.pg-drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 14px 0; font-size: 15px; font-weight: 600; }
+
+/* ───────── 编辑器面板 ───────── */
+.pg-editors > .split-pane { min-width: 0; min-height: 0; }
+.pg-pane { flex: 1; min-height: 0; }
+.pg-pane-head { flex: none; height: 40px; display: flex; align-items: center; gap: 6px; padding: 0 6px 0 14px; border-bottom: 1px solid var(--line); min-width: 0; }
+.pg-pane-label { flex: none; font-size: 11px; font-weight: 600; color: var(--text-3); letter-spacing: 0.04em; white-space: nowrap; }
+.pg-pane-tabs { flex: 1; min-width: 0; display: flex; align-items: center; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.pg-pane-tabs::-webkit-scrollbar { display: none; }
+.pg-pane-add { flex: none; width: 28px; height: 28px; }
+.pg-tab { flex: none; max-width: 240px; cursor: pointer; user-select: none; outline: none; }
+.pg-tab:focus-visible { box-shadow: inset 0 0 0 2px var(--primary-soft); }
+.pg-tab-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-family: var(--mono); font-size: 12px; font-weight: inherit; }
+.pg-tab-ico { opacity: 0.75; }
+.pg-tab-dot { flex: none; width: 6px; height: 6px; border-radius: 50%; }
+.pg-tab-dot.error { background: var(--danger); }
+.pg-tab-dot.warning { background: var(--warning); }
+.pg-tab-input { min-width: 60px; max-width: 200px; height: 20px; padding: 0 4px; border: 0; border-radius: 5px; outline: none; background: var(--panel); color: var(--text); font-family: var(--mono); font-size: 12px; box-shadow: inset 0 0 0 1px var(--primary); }
+.pg-pane-body { flex: 1; min-height: 0; position: relative; background: var(--code-bg); }
+
+/* ───────── 底部面板 ───────── */
+.pg-bottom { flex: 1; min-height: 0; }
+.pg-bottom-head { flex: none; display: flex; align-items: center; min-width: 0; border-bottom: 1px solid var(--line); }
+.pg-bottom-tabs { flex: 1; min-width: 0; border-bottom: 0; }
+.pg-bottom-tabs .badge { height: 16px; min-width: 16px; font-size: 10.5px; padding: 0 4px; }
+.pg-tab-ready { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+.pg-run-summary { flex: none; max-width: 60%; display: flex; align-items: center; gap: 10px; padding: 0 8px; font-size: 12px; color: var(--text-3); white-space: nowrap; overflow: hidden; }
+.pg-kv b { color: var(--text); font-weight: 600; }
+.pg-kv.danger b { color: var(--danger); }
+.pg-pill { display: inline-flex; align-items: center; gap: 5px; height: 22px; padding: 0 9px; border-radius: 99px; font-size: 11.5px; font-weight: 500; min-width: 0; }
+.pg-pill svg { flex: none; }
+.pg-pill.warn { background: var(--warning-bg); color: var(--warning); }
+.pg-pill.danger { background: var(--danger-bg); color: var(--danger); max-width: 300px; }
+.pg-pill-text { overflow: hidden; text-overflow: ellipsis; }
+.pg-bottom-body { flex: 1; min-height: 0; position: relative; display: flex; flex-direction: column; }
+.pg-bottom-body > .log-console { flex: 1; height: auto; min-height: 0; }
+.pg-scroll { flex: 1; min-height: 0; overflow: auto; }
+.pg-keep { flex: 1; min-height: 0; min-width: 0; flex-direction: column; }
+.pg-keep > * { flex: 1; min-height: 0; min-width: 0; }
+
+/* ───────── 状态栏 ───────── */
+.pg-status { gap: 12px; min-width: 0; overflow: hidden; }
+.pg-status .spacer { flex: 1; }
+.pg-status-stage { color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px; }
+.pg-status-tool, .pg-hints { white-space: nowrap; }
+.pg-status-btn { width: 24px; height: 24px; }
+
+/* ───────── 对话框 ───────── */
+.pg-confirm { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 4px 0 10px; text-align: center; }
+.pg-confirm-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--primary-soft); color: var(--primary); }
+.pg-confirm-icon.danger { background: var(--danger-bg); color: var(--danger); }
+.pg-confirm-msg { font-size: 13.5px; line-height: 1.65; color: var(--text-2); word-break: break-word; }
+.pg-confirm-msg b { color: var(--text); font-weight: 600; }
+.pg-confirm-actions { width: 100%; margin-top: 6px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pg-confirm-actions .btn { height: 36px; padding: 0 10px; }
+.pg-btn-danger-solid { background: var(--danger); color: #fff; }
+.pg-btn-danger-solid:hover { background: var(--danger); opacity: 0.9; }
+.pg-prompt { display: flex; flex-direction: column; gap: 8px; padding-top: 4px; }
+.pg-prompt-label { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; color: var(--text-2); }
+.pg-prompt-input { width: 100%; font-family: var(--mono); font-size: 13px; }
+.pg-prompt-hint { min-height: 18px; font-size: 12px; line-height: 1.5; color: var(--text-3); }
+.pg-prompt-hint.error { color: var(--danger); }
+
+/* 示例库 */
+.pg-ex { display: flex; flex-direction: column; gap: 12px; height: min(560px, calc(100vh - 170px)); }
+.pg-ex-search { flex: none; display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 14px; border-radius: 99px; background: var(--fill); color: var(--text-3); }
+.pg-ex-search input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: var(--text); font-size: 14px; }
+.pg-ex-search input::placeholder { color: var(--text-3); }
+.pg-ex-list { flex: 1; min-height: 0; overflow-y: auto; margin: 0 -8px; padding: 0 8px; }
+.pg-ex-group { margin-bottom: 14px; }
+.pg-ex-group-title { display: flex; align-items: center; gap: 6px; padding: 4px 12px 6px; font-size: 12px; font-weight: 500; color: var(--text-3); }
+.pg-ex-row { width: 100%; display: flex; align-items: center; gap: 12px; padding: 8px 12px; border: 0; border-radius: 12px; background: transparent; text-align: left; transition: background 0.12s; }
+.pg-ex-row:hover, .pg-ex-row:focus-visible { background: var(--panel-2); outline: none; }
+.pg-ex-ico { flex: none; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; background: var(--primary-soft); color: var(--primary); font-weight: 600; font-size: 14px; }
+.pg-ex-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.pg-ex-text b { font-size: 14px; font-weight: 600; letter-spacing: -0.01em; }
+.pg-ex-text small { font-size: 12.5px; color: var(--text-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pg-ex-chev { flex: none; color: var(--text-4); transition: transform 0.15s, color 0.15s; }
+.pg-ex-row:hover .pg-ex-chev { color: var(--primary); transform: translateX(2px); }
+
+/* ───────── 响应式 ───────── */
+@media (max-width: 1240px) {
+  .pg-btn-label { display: none; }
+  .pg-actions .btn { width: 34px; padding: 0; }
+}
+@media (max-width: 1000px) {
+  .pg-logo-text { display: none; }
+}
+@media (max-width: 760px) {
+  .pg-topbar { gap: 4px; padding: 0 10px; }
+  .pg-hide-narrow { display: none !important; }
+  .pg-show-narrow { display: inline-flex; }
+  .pg-more.pg-show-narrow { display: block; }
+  .pg-save-text { display: none; }
+  .pg-title { font-size: 14px; padding: 0 6px; }
+  .pg-run { min-width: 0; padding: 0 12px; }
+  .pg-body { padding: 0 8px; }
+  .pg-banner { margin: 0 8px 8px; }
+  .pg-run-summary .pg-kv:first-of-type, .pg-pill.danger { display: none; }
+  .pg-run-summary { max-width: 45%; }
+  .pg-status { padding: 0 10px; }
+  .pg-pane-head { padding-left: 10px; }
+}
