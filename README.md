@@ -2,6 +2,10 @@
 
 网页版 HDL 仿真与 FPGA 设计平台：一半像 EDA Playground，一半像在线 Vivado。全部工具链都是开源的，Yosys / nextpnr 以 WebAssembly 形式随 npm 安装。
 
+在线页面：https://liyucheng1997.github.io/398_lab-EDA-website/
+
+> GitHub Pages 只托管前端：可以浏览界面、编辑代码，但仿真、综合、布局布线、示例列表都需要 WebEDA 服务端。完整功能请按下面的步骤在本机运行，或参考「部署」一节连接自己的服务端。
+
 ## 功能
 
 **Playground**（类 EDA Playground）
@@ -52,6 +56,22 @@ npm start
 ```
 
 服务端会直接托管 `client/dist`，访问 http://localhost:3001 。
+
+## 部署
+
+推送到 `main` 后，GitHub Actions（`.github/workflows/pages.yml`）会自动构建前端并发布到 GitHub Pages。
+
+如果想让 Pages 上的页面能用完整功能，需要把服务端部署到一台有公网地址的机器上，然后：
+
+1. 在服务端设置环境变量 `WEBEDA_CORS_ORIGIN=https://liyucheng1997.github.io`，允许 Pages 页面跨域访问。
+2. 在仓库 Settings → Secrets and variables → Actions → Variables 添加 `WEBEDA_API_BASE`，值为服务端地址（如 `https://eda.example.com`），再重新运行 Pages 工作流。
+
+构建时可用的环境变量：
+
+| 变量 | 作用 |
+| --- | --- |
+| `VITE_BASE` | 前端部署的子路径，Pages 上为 `/398_lab-EDA-website/` |
+| `VITE_API_BASE` | 后端地址；为空时与前端同源 |
 
 ## 测试
 
