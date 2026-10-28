@@ -1,0 +1,130 @@
+/* WebEDA 全局布局与共享组件样式。颜色/阴影/圆角只引用 tokens.css 中的变量。
+ * 各页面/功能模块的私有样式放在各自目录的 .css 中（类名加模块前缀：pg- / st- / wv- / sch- / vb- / home-）。 */
+
+:root {
+  --code-bg: var(--panel);
+  --sidebar-bg: #fbfbfd;
+  --topbar-h: 54px;
+  --statusbar-h: 28px;
+}
+:root[data-theme='dark'] {
+  --sidebar-bg: #161618;
+}
+
+.page-loading { flex: 1; display: flex; align-items: center; justify-content: center; }
+.placeholder { flex: 1; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--text-3); font-size: 14px; }
+
+/* 顶栏：与页面同色、无边框 */
+.topbar { height: var(--topbar-h); flex: none; display: flex; align-items: center; gap: 12px; padding: 0 14px; background: var(--bg); }
+.topbar .spacer { flex: 1; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+.logo-mark { width: 30px; height: 30px; border-radius: 9px; background: var(--ink); color: var(--ink-text); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; letter-spacing: -0.04em; }
+.logo-text { display: flex; flex-direction: column; line-height: 1.15; }
+.logo-text b { font-size: 15px; font-weight: 600; letter-spacing: -0.02em; }
+.logo-text small { font-size: 11px; color: var(--text-3); }
+.tb-sep { width: 1px; height: 20px; background: var(--line); }
+
+/* 卡片 */
+.card { background: var(--panel); border-radius: var(--r-lg); box-shadow: var(--shadow-card); }
+.panel { background: var(--panel); border-radius: var(--r); box-shadow: var(--shadow-card); display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; }
+.panel-header { height: 38px; flex: none; display: flex; align-items: center; gap: 8px; padding: 0 10px 0 14px; border-bottom: 1px solid var(--line); font-weight: 600; font-size: 12.5px; }
+.panel-header .spacer { flex: 1; }
+.panel-body { flex: 1; min-height: 0; overflow: auto; position: relative; }
+
+/* 按钮补充 */
+.btn-ghost { background: transparent; color: var(--primary); }
+.btn-ghost:hover { background: var(--primary-soft); }
+.btn-danger { background: transparent; color: var(--danger); }
+.btn-danger:hover { background: var(--danger-bg); }
+.btn:disabled, .icon-btn:disabled, .chip:disabled { opacity: 0.45; pointer-events: none; }
+.icon-btn.active { background: var(--primary-soft); color: var(--primary); }
+
+/* 分段控件 */
+.seg { display: inline-flex; padding: 3px; border-radius: 99px; background: var(--fill); gap: 2px; }
+.seg button { height: 26px; padding: 0 12px; border: 0; border-radius: 99px; background: transparent; color: var(--text-2); font-weight: 500; font-size: 12.5px; white-space: nowrap; }
+.seg button.active { background: var(--panel); color: var(--text); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12); }
+
+/* 页签（面板内） */
+.tabs { display: flex; align-items: center; gap: 2px; padding: 4px 6px; border-bottom: 1px solid var(--line); flex: none; overflow-x: auto; scrollbar-width: none; }
+.tab { height: 28px; padding: 0 12px; border: 0; border-radius: 8px; background: transparent; color: var(--text-2); font-weight: 500; font-size: 12.5px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
+.tab:hover { background: var(--hover); color: var(--text); }
+.tab.active { background: var(--primary-soft); color: var(--primary); font-weight: 600; }
+.tab .tab-x { opacity: 0; border: 0; background: transparent; width: 16px; height: 16px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; color: inherit; padding: 0; }
+.tab:hover .tab-x, .tab.active .tab-x { opacity: 0.7; }
+.tab .tab-x:hover { opacity: 1; background: var(--hover); }
+.badge { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 99px; background: var(--fill); color: var(--text-2); font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; font-variant-numeric: tabular-nums; }
+.badge-danger { background: var(--danger); color: #fff; }
+.badge-warning { background: var(--warning); color: #fff; }
+
+/* 分栏 */
+.split { display: flex; width: 100%; height: 100%; min-width: 0; min-height: 0; }
+.split-vertical { flex-direction: column; }
+.split-pane { position: relative; display: flex; flex-direction: column; min-width: 0; min-height: 0; overflow: hidden; }
+.split-gutter { flex: none; position: relative; z-index: 2; }
+.split-horizontal > .split-gutter { width: 10px; cursor: col-resize; }
+.split-vertical > .split-gutter { height: 10px; cursor: row-resize; }
+.split-gutter::after { content: ''; position: absolute; border-radius: 4px; background: transparent; transition: background 0.15s; }
+.split-horizontal > .split-gutter::after { left: 4px; width: 2px; top: 30%; bottom: 30%; }
+.split-vertical > .split-gutter::after { top: 4px; height: 2px; left: 30%; right: 30%; }
+.split-gutter:hover::after { background: var(--primary); }
+
+/* 状态小圆点 */
+.status-dot { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 500; color: var(--text-2); white-space: nowrap; }
+.status-dot i { width: 7px; height: 7px; border-radius: 50%; background: var(--text-4); }
+.status-running i, .status-queued i { background: var(--primary); animation: pulse 1s ease-in-out infinite; }
+.status-running, .status-queued { color: var(--primary); }
+.status-succeeded i { background: var(--success); }
+.status-succeeded { color: var(--success); }
+.status-failed i { background: var(--danger); }
+.status-failed { color: var(--danger); }
+.status-cancelled i { background: var(--warning); }
+@keyframes pulse { 50% { opacity: 0.35; } }
+
+/* 日志控制台 */
+.log-console { height: 100%; overflow: auto; padding: 8px 12px; font-family: var(--mono); font-size: 12px; line-height: 1.55; background: var(--panel); color: var(--text); }
+.log-line { white-space: pre-wrap; word-break: break-all; }
+.log-info { color: var(--text-3); }
+.log-stderr { color: var(--text-2); }
+.log-error { color: var(--danger); }
+.log-warn { color: var(--warning); }
+.log-loc { color: var(--primary); cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+.log-empty { color: var(--text-3); font-family: var(--font); font-size: 13px; padding: 16px 4px; }
+
+/* 诊断列表 */
+.diag-list { font-size: 12.5px; }
+.diag { display: flex; gap: 8px; align-items: baseline; padding: 6px 12px; border-bottom: 1px solid var(--line); }
+.diag-link { cursor: pointer; }
+.diag-link:hover { background: var(--hover); }
+.diag-sev { font-weight: 600; flex: none; }
+.diag-error .diag-sev { color: var(--danger); }
+.diag-warning .diag-sev { color: var(--warning); }
+.diag-info .diag-sev { color: var(--text-3); }
+.diag-tool { color: var(--text-3); flex: none; font-family: var(--mono); font-size: 11.5px; }
+.diag-msg { flex: 1; word-break: break-word; }
+.diag-loc { color: var(--primary); font-family: var(--mono); font-size: 11.5px; flex: none; }
+
+/* 表格（报告） */
+.table { width: 100%; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.table th { text-align: left; font-weight: 500; color: var(--text-3); padding: 8px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.table td { padding: 7px 12px; border-bottom: 1px solid var(--line); }
+.table tr:hover td { background: var(--hover); }
+.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* 进度条（资源利用率） */
+.meter { height: 6px; border-radius: 99px; background: var(--fill); overflow: hidden; min-width: 60px; }
+.meter > i { display: block; height: 100%; background: var(--primary); border-radius: 99px; }
+.meter.warn > i { background: var(--warning); }
+.meter.over > i { background: var(--danger); }
+
+/* 空状态 */
+.empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--text-3); font-size: 14px; height: 100%; padding: 24px; text-align: center; }
+.empty svg { opacity: 0.6; }
+
+/* 状态栏 */
+.statusbar { height: var(--statusbar-h); flex: none; display: flex; align-items: center; gap: 16px; padding: 0 16px; font-size: 12px; color: var(--text-3); }
+
+kbd { font-family: var(--mono); font-size: 11px; padding: 1px 5px; border-radius: 5px; background: var(--fill); color: var(--text-2); }
+
+@media (max-width: 760px) {
+  .logo-text small { display: none; }
+}

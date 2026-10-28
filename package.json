@@ -1,0 +1,22 @@
+{
+  "name": "webeda",
+  "private": true,
+  "version": "0.1.0",
+  "description": "WebEDA — 网页版 HDL 仿真 + FPGA 综合/实现平台（类 EDA Playground / 在线 Vivado）",
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w client",
+    "start": "npm run start -w server",
+    "typecheck": "npm run typecheck -w server && npm run typecheck -w client",
+    "test": "npm run test -w server && npm run test -w client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.9.3"
+  }
+}
