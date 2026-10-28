@@ -388,12 +388,16 @@ export function createFluid(canvas, target = canvas) {
     blit(null);
   }
 
+  // 同一个 canvas 可能被再次 createFluid（React StrictMode 会挂载两次），
+  // 此时尺寸已经对上，但本实例的帧缓冲还没建，所以首次必须初始化
+  let inited = false;
   function resize(){
     const dpr = Math.min(devicePixelRatio || 1, 2);
     const w = Math.max(1, Math.round(canvas.clientWidth * dpr)), h = Math.max(1, Math.round(canvas.clientHeight * dpr));
-    if (canvas.width === w && canvas.height === h) return;
+    if (inited && canvas.width === w && canvas.height === h) return;
     canvas.width = w; canvas.height = h;
     initFramebuffers();
+    inited = true;
   }
   resize();
 

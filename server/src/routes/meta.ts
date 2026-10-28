@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import fs from 'node:fs';
 import path from 'node:path';
-import { createRequire } from 'node:module';
 import type { ExampleSummary, ToolInfo } from '@webeda/shared';
 import { EXAMPLES } from '../examples';
 import { findIverilogBin, runProcess } from '../tools/exec';
@@ -11,13 +10,16 @@ export const metaRouter = Router();
 
 let toolCache: ToolInfo[] | null = null;
 
+/** 读取已安装包的版本。不能 require.resolve('<pkg>/package.json')：@yowasp/* 的 exports 字段没有导出它，所以沿 node_modules 向上查找 */
 function pkgVersion(name: string): string | null {
-  try {
-    const require = createRequire(path.join(SERVER_ROOT, 'package.json'));
-    const p = require.resolve(`${name}/package.json`);
-    return JSON.parse(fs.readFileSync(p, 'utf8')).version ?? null;
-  } catch {
-    return null;
+  for (let dir = SERVER_ROOT; ; dir = path.dirname(dir)) {
+    const p = path.join(dir, 'node_modules', ...name.split('/'), 'package.json');
+    try {
+      return JSON.parse(fs.readFileSync(p, 'utf8')).version ?? null;
+    } catch {
+      /* 继续向上 */
+    }
+    if (path.dirname(dir) === dir) return null;
   }
 }
 
