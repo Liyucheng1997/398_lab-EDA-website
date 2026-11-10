@@ -81,10 +81,10 @@
   color: var(--text-2);
 }
 
-/* ───────── 两张入口大卡片 ───────── */
+/* ───────── 入口大卡片 ───────── */
 .home-entries {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
   animation: riseIn 0.5s 0.06s var(--ease-out) both;
 }
@@ -395,6 +395,9 @@ a.home-ex:hover .home-ex-foot svg { transform: translateX(3px); }
 .home-footer p { margin: 8px 0 0; font-size: 12px; line-height: 1.8; color: var(--text-3); }
 
 /* ───────── 响应式 ───────── */
+@media (max-width: 1040px) {
+  .home-entries { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}
 @media (max-width: 900px) {
   .home-split { grid-template-columns: minmax(0, 1fr); }
 }

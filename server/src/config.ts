@@ -19,6 +19,16 @@ export const config = {
   corsOrigins: (process.env.WEBEDA_CORS_ORIGIN ?? '').split(',').map((s) => s.trim()).filter(Boolean),
   /** 同时运行的任务数 */
   concurrency: Number(process.env.WEBEDA_CONCURRENCY ?? Math.max(1, Math.min(4, Math.floor(os.cpus().length / 2)))),
+  /** AI 电路板设计（Claude API）。凭据由 SDK 从 ANTHROPIC_API_KEY 等环境变量读取 */
+  ai: {
+    model: process.env.WEBEDA_AI_MODEL ?? 'claude-fable-5-2',
+    /** 推理力度：low / medium / high / xhigh / max */
+    effort: (process.env.WEBEDA_AI_EFFORT ?? 'high') as 'low' | 'medium' | 'high' | 'xhigh' | 'max',
+    /** 单次设计最多调用模型多少轮（防止失控消耗） */
+    maxTurns: Number(process.env.WEBEDA_AI_MAX_TURNS ?? 40),
+    maxConcurrentRuns: 1,
+    maxPromptChars: 4000,
+  },
   /** 任务保留时间（结束后多久清理工作目录与内存记录） */
   jobTtlMs: 60 * 60 * 1000,
   limits: {

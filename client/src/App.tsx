@@ -7,6 +7,7 @@ const HomePage = lazy(() => import('./pages/home/HomePage'));
 const PlaygroundPage = lazy(() => import('./pages/playground/PlaygroundPage'));
 const StudioHome = lazy(() => import('./pages/studio/StudioHome'));
 const StudioPage = lazy(() => import('./pages/studio/StudioPage'));
+const PcbPage = lazy(() => import('./pages/pcb/PcbPage'));
 
 export function App() {
   return (
@@ -18,6 +19,7 @@ export function App() {
           <Route path="/playground/:id" element={<PlaygroundPage />} />
           <Route path="/studio" element={<StudioHome />} />
           <Route path="/studio/:id" element={<StudioPage />} />
+          <Route path="/pcb" element={<PcbPage />} />
           <Route path="*" element={<HomePage />} />
         </Routes>
       </Suspense>

@@ -16,6 +16,7 @@ import {
   RefreshCw,
   Search,
   ShieldCheck,
+  Sparkles,
   SquareTerminal,
   Sun,
   Workflow,
@@ -165,6 +166,9 @@ export default function HomePage() {
           <Link to="/studio" className="btn btn-ghost btn-sm">
             Studio
           </Link>
+          <Link to="/pcb" className="btn btn-ghost btn-sm">
+            PCB
+          </Link>
         </nav>
         <button
           type="button"
@@ -208,6 +212,14 @@ export default function HomePage() {
             name="Studio"
             desc="类 Vivado：工程、综合、布局布线、比特流、虚拟开发板"
             chips={['Yosys 综合', 'nextpnr 布局布线', 'iCE40 / ECP5 比特流', '虚拟开发板']}
+          />
+          <EntryCard
+            to="/pcb"
+            icon={Sparkles}
+            tone="primary"
+            name="PCB"
+            desc="AI 电路板设计：一句话描述需求，Claude 自动完成选型、布局、布线与 DRC"
+            chips={['Claude Fable 5.2', '双层板自动布线', 'DRC 检查', 'BOM / SVG 导出']}
           />
         </section>
 

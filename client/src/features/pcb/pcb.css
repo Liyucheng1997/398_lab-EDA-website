@@ -1,0 +1,78 @@
+/* 电路板视图（前缀 pcbv-）。层的颜色是数据编码：顶层铜 = 主题蓝，底层铜 = 中性灰，焊盘 = 墨色；
+ * 橙色只用于飞线（未连通），红色只用于 DRC 标记。 */
+.pcbv {
+  --pcbv-board: #f3f4f6;
+  --pcbv-edge: var(--line-strong);
+  --pcbv-fcu: var(--primary);
+  --pcbv-bcu: #8e8e93;
+  --pcbv-pad: var(--ink);
+  --pcbv-silk: var(--text-3);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--canvas);
+  outline: none;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+:root[data-theme='dark'] .pcbv {
+  --pcbv-board: #1c1c1e;
+  --pcbv-bcu: #7c7c80;
+}
+.pcbv.is-dragging { cursor: grabbing; }
+.pcbv-svg { display: block; }
+
+.pcbv-board { fill: var(--pcbv-board); stroke: var(--pcbv-edge); stroke-width: 0.15; }
+.pcbv-hole { fill: var(--canvas); stroke: var(--pcbv-edge); stroke-width: 0.12; }
+.pcbv-body { fill: none; stroke: var(--pcbv-silk); stroke-width: 0.1; opacity: 0.7; }
+.pcbv-silk text { fill: var(--pcbv-silk); font-family: var(--font); pointer-events: none; }
+
+.pcbv-cu { transition: opacity 0.15s; }
+polyline.pcbv-cu { fill: none; stroke-linecap: round; stroke-linejoin: round; cursor: pointer; }
+.pcbv-fcu { stroke: var(--pcbv-fcu); }
+.pcbv-bcu { stroke: var(--pcbv-bcu); }
+.pcbv-pad { fill: var(--pcbv-pad); cursor: pointer; }
+.pcbv-pad .pcbv-drill { fill: var(--pcbv-board); }
+.pcbv-g.has-active .pcbv-cu:not(.is-active) { opacity: 0.18; }
+
+.pcbv-rat { stroke: var(--warning); stroke-width: 0.1; stroke-dasharray: 0.5 0.35; pointer-events: none; }
+.pcbv-mark { fill: none; stroke: var(--danger); stroke-width: 0.16; }
+
+/* 浮动工具栏：图层开关 + 缩放 */
+.pcbv-toolbar {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background: var(--panel);
+  border-radius: 99px;
+  box-shadow: var(--shadow-pop);
+  cursor: default;
+}
+.pcbv-layer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 99px;
+  background: transparent;
+  color: var(--text-3);
+  font-size: 12.5px;
+  font-weight: 500;
+}
+.pcbv-layer:hover { background: var(--hover); }
+.pcbv-layer.active { color: var(--text); }
+.pcbv-layer i { width: 9px; height: 9px; border-radius: 3px; background: var(--text-4); opacity: 0.5; }
+.pcbv-layer.active i { opacity: 1; }
+.pcbv-layer-fcu.active i { background: var(--pcbv-fcu); }
+.pcbv-layer-bcu.active i { background: var(--pcbv-bcu); }
+.pcbv-layer-silk.active i { background: var(--pcbv-silk); }
+.pcbv-layer-rats.active i { background: var(--warning); }
+.pcbv-sep { width: 1px; height: 16px; margin: 0 4px; background: var(--line); }

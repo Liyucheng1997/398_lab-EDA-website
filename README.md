@@ -25,6 +25,18 @@
 - 虚拟开发板：在浏览器里做门级仿真，带 LED、开关、按键、数码管、串口终端
 - 板卡模板：iCEBreaker、iCEstick、iCE40-HX8K、ULX3S、Basys3、Tang Nano 9K、虚拟开发板
 
+**PCB**（AI 电路板设计）
+
+- 用一句话描述需求（如「NE555 闪灯板，5 V 排针供电」），Claude Fable 5.2 自己完成电路设计、元件选型、布局、布线和 DRC，过程中不需要人参与
+- AI 通过一组工具操作电路板：定义板框、放置元件、定义网络、自动布线、手工走线、打过孔、运行 DRC；收工时 DRC 仍有错误会被自动要求继续修复
+- 内置双层板 A* 自动布线器、设计规则检查（连通性、间距、短路、元件重叠、板框、安装孔）和参数化封装库（阻容、SOT、SOIC、TSSOP、TQFP、DIP、排针、端子等，AI 也可以自定义封装）
+- 板图查看器：图层开关、按网络高亮、飞线与 DRC 标记；可在现有设计上继续用自然语言修改
+- 导出板图 SVG、物料清单 CSV、设计数据 JSON
+
+这个功能需要 Claude API 凭据（见下文「AI 电路板设计」）。没有凭据时仍可加载内置示例板查看界面。
+
+> 思路来自 Anthropic 2026 年 11 月的研究文章 [Claude can design electronic prototypes from start to finish](https://www.anthropic.com/research/claude-electronics-design)。那是一项研究实验，没有对应的现成 API；这里是用 Claude API 的工具调用自行实现的简化版。生成的是原型设计：不做电气仿真，封装为标称尺寸，没有铺铜，暂不支持导出 KiCad / Gerber，投板前需要人工核对。
+
 | 器件系列 | 综合 | 布局布线 + 比特流 |
 | --- | --- | --- |
 | Lattice iCE40（HX1K / HX8K / UP5K） | ✓ | ✓ |
@@ -56,6 +68,30 @@ npm start
 ```
 
 服务端会直接托管 `client/dist`，访问 http://localhost:3001 。
+
+## AI 电路板设计
+
+在启动服务端之前设置 Claude API 密钥（在 [Claude Console](https://platform.claude.com/) 创建）：
+
+```bash
+export ANTHROPIC_API_KEY=你的密钥   # PowerShell：$env:ANTHROPIC_API_KEY = "你的密钥"
+npm run dev
+```
+
+然后打开 http://localhost:5173/pcb 。
+
+| 环境变量 | 默认值 | 作用 |
+| --- | --- | --- |
+| `ANTHROPIC_API_KEY` | — | Claude API 密钥；只在服务端使用，不会发给浏览器 |
+| `WEBEDA_AI_MODEL` | `claude-fable-5-2` | 使用的模型（需要支持自适应思考的当前模型，如 `claude-opus-5-5`） |
+| `WEBEDA_AI_EFFORT` | `high` | 推理力度：`low` / `medium` / `high` / `xhigh` / `max` |
+| `WEBEDA_AI_MAX_TURNS` | `40` | 单次设计最多调用模型的轮数 |
+
+注意：
+
+- 每次设计都会消耗 API 额度（Fable 5.2 为每百万 token 输入 $8、输出 $40），复杂的板子一次可能要运行几分钟。界面左下角会显示本次用掉的 token 数。
+- 请求默认开启了服务端回退（`fallbacks: "default"`）：安全分类器误拒时由 Anthropic 换模型重跑同一请求，实际作答的模型会显示在界面上。
+- `/api/pcb/runs` 没有鉴权，任何能访问服务端的人都能消耗你的额度。不要在没有访问控制的公网服务端上配置密钥。
 
 ## 部署
 

@@ -20,6 +20,8 @@ export function BackendNotice() {
 
   useEffect(() => {
     const ctrl = new AbortController();
+    // 组件卸载（含开发模式 StrictMode 的二次挂载）触发的中止不算「连不上」
+    let alive = true;
     const timer = setTimeout(() => ctrl.abort(), 8000);
     fetch(apiUrl('/api/tools'), { signal: ctrl.signal })
       .then((r) => {
@@ -27,9 +29,10 @@ export function BackendNotice() {
         const json = r.headers.get('content-type')?.includes('application/json');
         if (!r.ok || !json) setOffline(true);
       })
-      .catch(() => setOffline(true))
+      .catch(() => alive && setOffline(true))
       .finally(() => clearTimeout(timer));
     return () => {
+      alive = false;
       clearTimeout(timer);
       ctrl.abort();
     };

@@ -4,6 +4,7 @@ import path from 'node:path';
 import { config } from './config';
 import { jobsRouter } from './routes/jobs';
 import { metaRouter } from './routes/meta';
+import { pcbRouter } from './routes/pcb';
 import { playgroundsRouter, projectsRouter } from './routes/storage';
 
 const app = express();
@@ -28,6 +29,7 @@ if (config.corsOrigins.length) {
 app.use('/api/jobs', jobsRouter);
 app.use('/api/playgrounds', playgroundsRouter);
 app.use('/api/projects', projectsRouter);
+app.use('/api/pcb', pcbRouter);
 app.use('/api', metaRouter);
 app.use('/api', (_req, res) => {
   res.status(404).json({ error: '接口不存在' });

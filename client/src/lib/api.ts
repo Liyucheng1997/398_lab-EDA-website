@@ -6,6 +6,9 @@ import type {
   JobInfo,
   JobRequest,
   JobStatus,
+  PcbAiStatus,
+  PcbRunRequest,
+  PcbSnapshot,
   Playground,
   PlaygroundInput,
   PlacementInfo,
@@ -62,6 +65,12 @@ export const api = {
   artifactJson: async <T,>(jobId: string, name: string): Promise<T> => JSON.parse(await api.artifactText(jobId, name)) as T,
   gateNetlist: (jobId: string, name: string) => api.artifactJson<GateNetlist>(jobId, name),
   placement: (jobId: string, name: string) => api.artifactJson<PlacementInfo>(jobId, name),
+
+  pcbStatus: () => request<PcbAiStatus>('GET', '/api/pcb/status'),
+  pcbExample: () => request<PcbSnapshot>('GET', '/api/pcb/example'),
+  createPcbRun: (req: PcbRunRequest) => request<{ id: string }>('POST', '/api/pcb/runs', req),
+  cancelPcbRun: (id: string) => request<{ ok: true }>('POST', `/api/pcb/runs/${id}/cancel`),
+  pcbRunEventsUrl: (id: string) => apiUrl(`/api/pcb/runs/${id}/events`),
 };
 
 export interface JobHandlers {
